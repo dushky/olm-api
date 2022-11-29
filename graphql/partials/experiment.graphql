@@ -8,7 +8,7 @@ extend type Query @guard(with: ["api"]) {
     userExperiments(orderBy: _ @orderBy(columns: ["created_at", "filled"]), onlyMine: Boolean): [UserExperiment!]!
         @can(ability: "show", injectArgs: true, model: "App\\Models\\UserExperiment")
         @softDeletes
-        @paginate(type: "paginator", builder: "App\\GraphQL\\Queries\\UserExperiments")
+        @paginate(type: PAGINATOR, builder: "App\\GraphQL\\Queries\\UserExperiments")
     userExperiment(id: ID @eq): UserExperiment
         @can(ability: "show", injectArgs: true, find: "id")
         @softDeletes

@@ -96,7 +96,7 @@ class RunUserExperiment implements ShouldQueue
             } catch (BusinessLogicException $e) {}
         }
 
-        RunUserExperiment::dispatch($this->userExperiment)->delay(self::RETRY_INTERVAL_SECONDS);
+        RunUserExperiment::dispatch($this->userExperiment)->delay(now()->addSeconds(self::RETRY_INTERVAL_SECONDS));
     }
 
     public function failed()

@@ -29,7 +29,7 @@ class Reservation extends Model
         $startTime = $this->start->format('H:i');
         $endTime = $this->end->format('H:i');
         $userName = $this->user->name;
-        return "[$startTime - $endTime] $userName";
+        return "$userName";
     }
 
     // **************************** SCOPES **************************** //

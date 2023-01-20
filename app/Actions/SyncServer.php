@@ -227,6 +227,7 @@ class SyncServer
                             ->setSelectionSet([
                                 'name',
                                 'title',
+                                'defaultVisibilityFor'
                             ]),
                         (new Query('software'))
                             ->setSelectionSet([

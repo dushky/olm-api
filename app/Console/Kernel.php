@@ -26,6 +26,8 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('user-experiments:sync')->everyMinute();
 
+        $schedule->command('devices-reservation-status:sync')->everyMinute();
+
         $schedule->command('servers:sync')->dailyAt(
             config('reservation.daily_maintenance_start')['cron']
         );

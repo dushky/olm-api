@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -54,6 +55,19 @@ class Device extends Model
                 'enabled' => true,
             ]);
         });
+    }
+
+    public function scopeIsReservedNow(Builder $query): Bool
+    {
+        return $query->whereHas('reservations', function($q) {
+            $now = Carbon::now();
+
+            $q->where([
+                ['start', '<=', $now],
+                ['end', '>=', $now]
+            ]);
+        })->exists();
+
     }
 
     // **************************** RELATIONS **************************** //

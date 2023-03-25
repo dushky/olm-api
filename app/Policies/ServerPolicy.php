@@ -38,4 +38,19 @@ class ServerPolicy
     {
         return $user->can('server.sync');
     }
+
+    public function show_video(User $user): bool
+    {
+        return $user->can('server.show_video');
+    }
+
+    public function start_video(User $user): bool
+    {
+        return $user->can('server.start_video');
+    }
+
+    public function stop_video(User $user): bool
+    {
+        return $user->can('server.stop_video');
+    }
 }

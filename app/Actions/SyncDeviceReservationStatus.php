@@ -25,7 +25,14 @@ class SyncDeviceReservationStatus
 
         $mutation = new Mutation('updateDeviceReservationStatus');
 
-        $deviceIsReservedNow = json_encode($device->isReservedNow());
+        $isReservedNow = $device->isReservedNow();
+
+        // stop video stream when there is no reservation
+        if (!$isReservedNow) {
+            app(\App\Actions\StopVideoStream::class)->execute($device->server);
+        }
+
+        $deviceIsReservedNow = json_encode($isReservedNow);
         $mutation
             ->setArguments([
                 'deviceReservationStatusInput' => new RawObject("

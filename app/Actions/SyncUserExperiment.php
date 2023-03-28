@@ -55,10 +55,6 @@ class SyncUserExperiment
             'filled' => $data && count($data[0]['data']) ? 1 : 0, // if we don't have the measured values, then there was an error in the processing
             'output' => $data
         ]);
-
-        $userExperiment
-            ->addMedia($path)
-            ->toMediaCollection('result');
     }
 
     /**

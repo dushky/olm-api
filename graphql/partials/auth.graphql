@@ -12,7 +12,9 @@ extend type Mutation {
     register(input: RegisterInput @spread): RegisterResponse!
         @field(resolver: "App\\GraphQL\\Mutations\\Register@resolve")
     socialLogin(input: SocialLoginInput! @spread): AuthPayload!
-    @field(resolver: "App\\GraphQL\\Mutations\\SocialLogin@resolve")
+        @field(resolver: "App\\GraphQL\\Mutations\\SocialLogin@resolve")
+    ldapLogin(input: LdapLoginInput @spread): AuthPayload!
+        @field(resolver: "App\\GraphQL\\Mutations\\LdapLogin@resolve")
     verifyEmail(input: VerifyEmailInput! @spread): AuthPayload!
         @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\VerifyEmail@resolve")
     updatePassword(input: UpdatePassword! @spread): UpdatePasswordResponse!
@@ -22,6 +24,11 @@ extend type Mutation {
 
 input LoginInput {
     username: String! @rules(apply: ["required", "email", "not_regex:/.*stuba.sk$/i"] messages: [{rule: "not_regex" message: "For stuba.sk login use LDAP."}])
+    password: String! @rules(apply: ["required"])
+}
+
+input LdapLoginInput {
+    username: String! @rules(apply: ["required"])
     password: String! @rules(apply: ["required"])
 }
 

@@ -21,7 +21,7 @@ extend type Mutation {
 }
 
 input LoginInput {
-    username: String! @rules(apply: ["required", "email"])
+    username: String! @rules(apply: ["required", "email", "not_regex:/.*stuba.sk$/i"] messages: [{rule: "not_regex" message: "For stuba.sk login use LDAP."}])
     password: String! @rules(apply: ["required"])
 }
 
@@ -82,7 +82,7 @@ input NewPasswordWithCodeInput {
 
 input RegisterInput {
     name: String! @rules(apply: ["required", "string"])
-    email: String! @rules(apply: ["required", "email", "unique:users,email"])
+    email: String! @rules(apply: ["required", "email", "unique:users,email", "not_regex:/.*stuba.sk$/i"] messages: [{rule: "not_regex" message: "For stuba.sk login use LDAP."}])
     password: String! @rules(apply: ["required", "confirmed", "min:8"])
     password_confirmation: String!
 }

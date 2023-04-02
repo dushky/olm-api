@@ -20,7 +20,9 @@
         "mll-lab/laravel-graphql-playground": "^2.5",
         "nuwave/lighthouse": "^5.23",
         "spatie/laravel-medialibrary": "^9.0.0",
-        "spatie/laravel-permission": "^5.3"
+        "spatie/laravel-permission": "^5.3",
+        "ext-ldap": "*",
+        "ext-http": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

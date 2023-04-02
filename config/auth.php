@@ -112,4 +112,18 @@ return [
 
     'password_timeout' => 10800,
 
+    /*
+    |--------------------------------------------------------------------------
+    | LDAP
+    |--------------------------------------------------------------------------
+    |
+    | LDAP settings
+    |
+    */
+
+    'ldap' => [
+        'host' => env('LDAP_HOST'),
+        'base_distinguished_name' => env('LDAP_BASE_DISTINGUISHED_NAME'),
+        'username_suffix' => env('LDAP_USERNAME_SUFFIX', '')
+    ]
 ];

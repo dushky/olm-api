@@ -4,11 +4,11 @@ namespace App\GraphQL\Mutations;
 
 use App\Models\User;
 use GraphQL\Type\Definition\ResolveInfo;
-use http\Exception\BadUrlException;
 use Joselfonseca\LighthouseGraphQLPassport\Exceptions\AuthenticationException;
 use Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations\Register;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Safe\Exceptions\LdapException;
+use Safe\Exceptions\UrlException;
 use Symfony\Component\Routing\Exception\NoConfigurationException;
 
 class LdapLogin extends Register
@@ -32,7 +32,7 @@ class LdapLogin extends Register
 
         $ldapConnection = ldap_connect($ldapHost);
         if (!$ldapConnection) {
-            throw new BadUrlException("Bad syntactic LDAP host URI");
+            throw new UrlException("Bad syntactic LDAP host URI");
         }
         $this->ldapConnection = $ldapConnection;
 

@@ -37,7 +37,7 @@ class SyncDeviceReservationStatus
             ->setArguments([
                 'deviceReservationStatusInput' => new RawObject("
                     {
-                        deviceID: \"{$device->id}\"
+                        deviceID: \"{$device->remote_id}\"
                         isReserved: $deviceIsReservedNow
                     }
                 ")

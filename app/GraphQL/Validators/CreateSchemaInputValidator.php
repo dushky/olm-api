@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Validators;
 
+use App\Models\Schema;
 use Illuminate\Validation\Rule;
 use Nuwave\Lighthouse\Validation\Validator;
 
@@ -19,6 +20,10 @@ class CreateSchemaInputValidator extends Validator
                 'required',
                 'max:255',
                 Rule::unique('schemas', 'name')
+            ],
+            'type'=> [
+                'required',
+                Rule::in(Schema::AVAILABLE_TYPES)
             ],
             'device_type_id' => [
                 'required',

@@ -3,6 +3,7 @@
 namespace App\GraphQL\Queries;
 
 use App\Actions\GetVideoStreamStatus;
+use App\Models\Device;
 use App\Models\Server;
 
 class VideoStreamStatus
@@ -13,7 +14,7 @@ class VideoStreamStatus
      */
     public function __invoke($_, array $args)
     {
-        $server = Server::findOrFail($args['server_id']);
-        return app(GetVideoStreamStatus::class)->execute($server);
+        $device = Device::findOrFail($args['device_id']);
+        return app(GetVideoStreamStatus::class)->execute($device);
     }
 }

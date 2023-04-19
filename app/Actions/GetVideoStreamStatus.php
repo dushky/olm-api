@@ -3,10 +3,12 @@
 namespace App\Actions;
 
 use App\Exceptions\BusinessLogicException;
+use App\Models\Device;
 use App\Models\Server;
 use GraphQL\Client;
 use GraphQL\Exception\QueryError;
 use GraphQL\Query;
+use GraphQL\RawObject;
 use Illuminate\Support\Facades\Log;
 
 class GetVideoStreamStatus
@@ -17,19 +19,22 @@ class GetVideoStreamStatus
      * @param Server $server
      * @throws BusinessLogicException
      */
-    public function execute(Server $server): array
+    public function execute(Device $device): array
     {
-        $this->server = $server;
+        $this->server = $device->server;
 
-        return $this->getVideoStreamStatus();
+        return $this->getVideoStreamStatus($device->remote_id);
 
     }
 
-    private function getVideoStreamStatus(): array
+    private function getVideoStreamStatus($deviceId): array
     {
         $url = 'https://' . $this->server->api_domain . '/graphql';
 
         $gql = (new Query('videoStreamStatus'))
+            ->setArguments([
+                'deviceID' => $deviceId
+            ])
             ->setSelectionSet([
                 'isRunning',
                 'status',

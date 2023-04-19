@@ -3,6 +3,7 @@
 namespace App\Actions;
 
 use App\Exceptions\BusinessLogicException;
+use App\Models\Device;
 use App\Models\Server;
 use GraphQL\Client;
 use GraphQL\Exception\QueryError;
@@ -14,22 +15,24 @@ class GetCameraStatus
     protected Server $server;
 
     /**
-     * @param Server $server
      * @throws BusinessLogicException
      */
-    public function execute(Server $server): array
+    public function execute(Device $device): array
     {
-        $this->server = $server;
+        $this->server = $device->server;
 
-        return $this->getCameraStatus();
+        return $this->getCameraStatus($device->remote_id);
 
     }
 
-    private function getCameraStatus(): array
+    private function getCameraStatus($deviceId): array
     {
         $url = 'https://' . $this->server->api_domain . '/graphql';
 
         $gql = (new Query('cameraStatus'))
+            ->setArguments([
+                'deviceID' => $deviceId
+            ])
             ->setSelectionSet([
                 'isConnected',
                 'status',

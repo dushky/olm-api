@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Mutations;
 
+use App\Models\Device;
 use App\Models\Server;
 
 class StopVideoStream
@@ -12,9 +13,9 @@ class StopVideoStream
      */
     public function __invoke($_, array $args)
     {
-        $server = Server::findOrFail($args['server_id']);
+        $device = Device::findOrFail($args['device_id']);
 
-        return app(\App\Actions\StopVideoStream::class)->execute($server);
+        return app(\App\Actions\StopVideoStream::class)->execute($device);
 
     }
 }

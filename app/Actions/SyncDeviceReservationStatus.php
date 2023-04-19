@@ -29,7 +29,7 @@ class SyncDeviceReservationStatus
 
         // stop video stream when there is no reservation
         if (!$isReservedNow) {
-            app(\App\Actions\StopVideoStream::class)->execute($device->server);
+            app(\App\Actions\StopVideoStream::class)->execute($device);
         }
 
         $deviceIsReservedNow = json_encode($isReservedNow);

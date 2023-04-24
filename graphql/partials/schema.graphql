@@ -55,6 +55,7 @@ type Option {
     id: ID!
     name: String!
     value: String!
+    output_value: String!
     argument: Argument! @belongsTo
 }
 
@@ -93,4 +94,5 @@ input ArgumentInput {
 input OptionInput {
     name: String!
     value: String!
+    output_value: String!
 }

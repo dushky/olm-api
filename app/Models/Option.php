@@ -13,6 +13,7 @@ class Option extends Model
     protected $fillable = [
         'name',
         'value',
+        'output_value',
         'argument_id',
     ];
 

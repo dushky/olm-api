@@ -82,6 +82,7 @@ type DeviceType {
     id: ID!
     name: String!
     devices: [Device!]! @hasMany @softDeletes
+    experiment: [Experiment!]! @hasMany @softDeletes
     created_at: DateTime!
     updated_at: DateTime!
 }

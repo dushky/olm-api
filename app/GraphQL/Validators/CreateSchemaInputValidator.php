@@ -69,6 +69,10 @@ class CreateSchemaInputValidator extends Validator
                 'required',
                 'max:255',
             ],
+            'arguments.*.options.*.output_value' => [
+                'required',
+                'max:255',
+            ],
             'schema' => [
                 'required',
                 'mimetypes:text/xml,application/octet-stream'

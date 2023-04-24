@@ -73,6 +73,10 @@ class UpdateSchemaInputValidator extends Validator
                 'required',
                 'max:255',
             ],
+            'arguments.*.options.*.output_value' => [
+                'required',
+                'max:255',
+            ],
             'schema' => [
                 'mimetypes:text/xml,application/octet-stream'
             ],

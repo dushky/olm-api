@@ -82,6 +82,7 @@ type UserExperiment {
     schema: Schema @belongsTo @softDeletes
     input: [UserExperimentInput!]!
     output: [UserExperimentOutput!]
+    evaluation: [[UserExperimentEvaluation!]!]
     result: String
     note: String
     simulation_time: Int!
@@ -101,6 +102,11 @@ type UserExperimentInput {
 type UserExperimentOutput {
     name: String!
     data: [Float!]!
+}
+
+type UserExperimentEvaluation {
+    name: String!
+    value: Float!
 }
 
 type UserExperimentArg {

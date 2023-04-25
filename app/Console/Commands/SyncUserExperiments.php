@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Actions\EvaluateUserExperiment;
 use App\Actions\SyncUserExperiment;
 use App\Models\UserExperiment;
 use Illuminate\Console\Command;
@@ -43,6 +44,12 @@ class SyncUserExperiments extends Command
 
         foreach ($unfinished as $userExperiment) {
             app(SyncUserExperiment::class)->execute($userExperiment);
+        }
+
+        $finished = UserExperiment::finished()->unevaluated()->get();
+
+        foreach ($finished as $userExperiment) {
+            app(EvaluateUserExperiment::class)->execute($userExperiment);
         }
 
         $this->info("User experiments sync completed.");

@@ -41,6 +41,7 @@ class UserExperimentService
                         foreach ($argument['options'] as $option) {
                             if($input['value'] == $option['value']) {
                                 $input['formatted_value'] = $option['name'];
+                                $input['output_value'] = $option['output_value'];
                                 $processed = true;
                             }
                         }

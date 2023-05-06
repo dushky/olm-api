@@ -7,6 +7,8 @@ extend type Query @guard(with: ["api"]) {
         @can(ability: "show")
         @softDeletes
         @find
+    availableSchemaTypes: [String!]!
+        @field(resolver: "App\\Models\\Schema@getAvailableTypesAttribute")
 }
 
 extend type Mutation @guard(with: ["api"]) {
@@ -25,6 +27,8 @@ extend type Mutation @guard(with: ["api"]) {
 type Schema {
     id: ID!
     name: String!
+    type: String!
+    availableTypes: [String!]!
     deviceType: DeviceType! @belongsTo
     software: Software! @belongsTo
     arguments: [Argument!]! @belongsToMany
@@ -51,11 +55,13 @@ type Option {
     id: ID!
     name: String!
     value: String!
+    output_value: String!
     argument: Argument! @belongsTo
 }
 
 input CreateSchemaInput @validator {
     name: String!
+    type: String!
     device_type_id: ID!
     software_id: ID!
     note: String
@@ -67,6 +73,7 @@ input CreateSchemaInput @validator {
 input UpdateSchemaInput @validator {
     id: ID!
     name: String!
+    type: String!
     device_type_id: ID!
     software_id: ID!
     note: String
@@ -87,4 +94,5 @@ input ArgumentInput {
 input OptionInput {
     name: String!
     value: String!
+    output_value: String!
 }

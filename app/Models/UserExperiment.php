@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -40,6 +41,15 @@ class UserExperiment extends Model implements HasMedia
             : null;
     }
 
+    public function getEvaluationAttribute(?string $value): ?array
+    {
+        return $value ? collect(json_decode($value, true))->recursiveCollect()
+            ->map(fn(Collection $evaluation) => $evaluation
+                ->map(fn(float $item, string $key) => ['name' => $key, 'value' => round($item, 3)])
+            )
+            ->toArray() : null;
+    }
+
     // **************************** SCOPES **************************** //
 
     public function scopeExecuted(Builder $query, ?bool $forAuthUser = true): Builder
@@ -58,6 +68,22 @@ class UserExperiment extends Model implements HasMedia
             ['deleted_at', null]
         ]);
     }
+
+    public function scopeFinished(Builder $query, array $userId = []): Builder
+    {
+        if ($userId) $query->whereIn('user_id', $userId);
+
+        return $query->where([
+            ['filled', true],
+            ['deleted_at', null]
+        ]);
+    }
+
+    public function scopeUnevaluated(Builder $query): Builder
+    {
+        return $query->whereNull('evaluation');
+    }
+
 
     public function scopeFilterDevice(Builder $query, int $deviceId): Builder
     {

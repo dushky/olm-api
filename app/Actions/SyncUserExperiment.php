@@ -29,8 +29,13 @@ class SyncUserExperiment
         if($response['status'] == 'failed') {
             $userExperiment->update(['filled' => 0]);
         } else if ($response['status'] == 'finished') {
-            if($response['url'])
-                $this->fetchResult($userExperiment, $response['url']);
+            if($response['url']) {
+//                $this->fetchResult($userExperiment, $response['url']);
+                $userExperiment->update([
+                    'filled' => $response['values'] && count($response['values'][0]['data']) ? 1 : 0, // if we don't have the measured values, then there was an error in the processing
+                    'output' => $response['values']
+                ]);
+            }
             else
                 $userExperiment->update(['filled' => 0]);
         }
@@ -102,6 +107,11 @@ class SyncUserExperiment
             ->setSelectionSet([
                 'url',
                 'status',
+                (new Query('values'))
+                    ->setSelectionSet([
+                        'name',
+                        'data',
+                    ]),
             ]);
 
         try {

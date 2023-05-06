@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Queries;
 
+use App\Actions\EvaluateUserExperiment;
 use App\Actions\SyncUserExperiment;
 use App\Models\UserExperiment;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -26,6 +27,12 @@ class UserExperiments
             try {
                 app(SyncUserExperiment::class)->execute($userExperiment);
             } catch (\Throwable $e) {}
+        }
+
+        $finished = UserExperiment::finished()->unevaluated()->get();
+
+        foreach ($finished as $userExperiment) {
+            app(EvaluateUserExperiment::class)->execute($userExperiment);
         }
 
         $query = UserExperiment::query();

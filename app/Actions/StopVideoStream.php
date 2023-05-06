@@ -3,6 +3,7 @@
 namespace App\Actions;
 
 use App\Exceptions\BusinessLogicException;
+use App\Models\Device;
 use App\Models\Server;
 use GraphQL\Client;
 use GraphQL\Exception\QueryError;
@@ -14,19 +15,21 @@ class StopVideoStream
     protected Server $server;
 
     /**
-     * @param Server $server
      * @throws BusinessLogicException
      */
-    public function execute(Server $server): array
+    public function execute(Device $device): array
     {
-        $this->server = $server;
-        return $this->stopVideoStream();
+        $this->server = $device->server;
+        return $this->stopVideoStream($device->remote_id);
     }
 
-    private function stopVideoStream(): array {
+    private function stopVideoStream($deviceId): array {
 
         $mutation = new Mutation('stopVideoStream');
         $mutation
+            ->setArguments([
+                'deviceID' => $deviceId
+            ])
             ->setSelectionSet([
                 'isStopped',
                 'status'

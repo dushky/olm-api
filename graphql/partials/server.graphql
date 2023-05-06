@@ -15,9 +15,9 @@ extend type Query @guard(with: ["api"]) {
         @all
     software: [Software!]!
         @all
-    cameraStatus(server_id: ID!): CameraStatus!
+    cameraStatus(device_id: ID!): CameraStatus!
         @can(ability: "show_video" model: "App\\Models\\Server")
-    videoStreamStatus(server_id: ID!): VideoStreamStatus!
+    videoStreamStatus(device_id: ID!): VideoStreamStatus!
 }
 
 extend type Mutation @guard(with: ["api"]) {
@@ -36,9 +36,9 @@ extend type Mutation @guard(with: ["api"]) {
     syncAllServers: [Server!]!
         @softDeletes
         @can(ability: "sync")
-    startVideoStream(server_id: ID!): VideoStreamStatus!
+    startVideoStream(device_id: ID!): VideoStreamStatus!
         @can(ability: "start_video" model: "App\\Models\\Server")
-    stopVideoStream(server_id: ID!): StopVideoStreamStatus!
+    stopVideoStream(device_id: ID!): StopVideoStreamStatus!
         @can(ability: "stop_video" model: "App\\Models\\Server")
 }
 
@@ -82,6 +82,7 @@ type DeviceType {
     id: ID!
     name: String!
     devices: [Device!]! @hasMany @softDeletes
+    experiment: [Experiment!]! @hasMany @softDeletes
     created_at: DateTime!
     updated_at: DateTime!
 }

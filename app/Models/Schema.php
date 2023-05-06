@@ -14,8 +14,11 @@ class Schema extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia, SoftDeletes;
 
+    public const AVAILABLE_TYPES = ['control', 'ident'];
+
     protected $fillable = [
         'name',
+        'type',
         'device_type_id',
         'software_id',
         'note',
@@ -30,6 +33,8 @@ class Schema extends Model implements HasMedia
         'deleted_at'
     ];
 
+    protected $appends = ['available_types'];
+
     public function getSchemaAttribute(): ?String
     {
         return isset($this->getMedia('schema')[0])
@@ -42,6 +47,11 @@ class Schema extends Model implements HasMedia
         return isset($this->getMedia('preview')[0])
             ? $this->getMedia('preview')[0]->getFullUrl()
             : null;
+    }
+
+    public function getAvailableTypesAttribute(): array
+    {
+        return self::AVAILABLE_TYPES;
     }
 
     // **************************** MEDIA **************************** //

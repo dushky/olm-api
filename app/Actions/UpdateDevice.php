@@ -14,6 +14,7 @@ class UpdateDevice
         ]);
 
         $device->update([
+            'name' => $deviceData['name'],
             'device_type_id' => $deviceType->id
         ]);
 

@@ -64,29 +64,33 @@ class EvaluateUserExperiment
                     0
                 );
 
-                //OVERSHOOT
                 $maxY = $y->max();
-                $evaluation['overshoot'] = (
-                $maxY > $w
-                    ? round(abs($w - $maxY) * 100 / $w, 3)
-                    : 0
-                );
+                //OVERSHOOT
+//                $evaluation['overshoot'] = (
+//                $maxY > $w
+//                    ? round(abs($w - $maxY) * 100 / $w, 3)
+//                    : 0
+//                );
 
                 // STEADY STATE VALUE
-                $evaluation['steady_state_value'] = $y->slice(-10)->average();
+                $steadyStateValue = $y->slice(-10)->average();
+//                $evaluation['steady_state_value'] = $steadyStateValue;
+
+                // PERMANENT ERROR
+                $evaluation['permanent_error'] = abs($w - $steadyStateValue);
 
                 // MAX OVERSHOOT
-                $evaluation['max_overshoot'] = $maxY - $evaluation['steady_state_value'];
+                $evaluation['max_overshoot'] = $maxY - $steadyStateValue;
 
-                // SETTLING TIME pre 0.02
-                $settling2Index = $this->getSettlingIndex($y, 0.02, $evaluation['steady_state_value']);
+                // SETTLING TIME +-2%
+                $settling2Index = $this->getSettlingIndex($y, 0.02, $steadyStateValue);
 
                 if ($settling2Index !== null && ++$settling2Index < $y->count()) {
                     $evaluation['settling_time_2'] = $settling2Index * $Ts;
                 }
 
-                // SETTLING TIME pre 0.05
-                $settling5Index = $this->getSettlingIndex($y, 0.05, $evaluation['steady_state_value']);
+                // SETTLING TIME +-5%
+                $settling5Index = $this->getSettlingIndex($y, 0.05, $steadyStateValue);
 
                 if ($settling5Index !== null && ++$settling5Index < $y->count()) {
                     $evaluation['settling_time_5'] = $settling5Index * $Ts;

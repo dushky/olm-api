@@ -54,9 +54,11 @@ class CreateSchemaInputValidator extends Validator
             ],
             'arguments.*.row' => [
                 'integer',
+                'required'
             ],
             'arguments.*.order' => [
                 'integer',
+                'required'
             ],
             'arguments.*.options' => [
                 'array',

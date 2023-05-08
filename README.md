@@ -7,58 +7,54 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## Installation
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[CMS Max](https://www.cmsmax.com/)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+1. PHP 8, Composer, PHP extensions (Described on Laravel site), Python 3.8 is **required**
+2. run your MySQL server
+3. create ```.env``` file from ```.env.example```
+4. set ```APP_URL``` variable to url of app
+5. set your database connection information in the ```DB_CONNECTION```, ```DB_HOST```, ```DB_PORT```, ```DB_DATABASE```, ```DB_USERNAME```, ```DB_PASSWORD```
+6. set ```BROADCAST_DRIVER``` variable to ```pusher```
+7. set ```QUEUE_CONNECTION``` variable to ```database```
+8. set ```PUSHER_APP_ID``` variable to whatever you want (recommended ```local```)
+9. set ```PUSHER_APP_KEY``` variable to whatever you want (recommended ```local```)
+10. set ```PUSHER_APP_SECRET``` variable to whatever you want (recommended ```local```)
+11. set ```DEFAULT_ADMIN_USER_EMAIL``` to the email address of admin account (whatever you want)
+12. set ```DEFAULT_ADMIN_USER_NAME``` to the username admin account (whatever you want)
+13. set ```DEFAULT_ADMIN_USER_PASSWORD``` to the password of admin account (whatever you want)
+14. set ```GOOGLE_CLIENT_ID``` to the value earned from console.cloud.google.com
+15. set ```GOOGLE_CLIENT_SECRET``` to the value earned from console.cloud.google.com
+16. set ```GOOGLE_LOGIN_REDIRECT``` to domain of frontend app
+17. run ```composer install``` to install project dependencies
+18. run ```php artisan key:generate``` to generate application key
+19. run ```php artisan migrate``` to run database migrations
+20. run ```php artisan passport:install``` to generate passport keys
+21. second client id from previous command output copy to the ```PASSPORT_CLIENT_ID```
+22. second secret key from previous command output copy to the ```PASSPORT_CLIENT_SECRET``` variable in ```.env``` file
+23. set nginx vhost root to public directory of the project
+24. in dev enviroment:
+    1. run ```php artisan schedule:work``` to run scheduler
+    2. run ```php artisan queue:work``` to run queue worker for queue experiments
+25. in production enviroment:
+    1. open crontab file with ```crontab -e``` and paste this:
+    ```
+    * * * * * cd {cesta} && php artisan schedule:run » /dev/null 2>&1
+    ```
+    2. install Supervisor on the server
+    3. in ```/etc/supervisor/conf.d/``` directory create ```olm-worker.conf``` file and paste this:
+    ```
+    [program:olm-worker]
+    process_name=%(program_name)s_%(process_num)02d
+    command=php {cesta}/artisan queue:work --sleep=3 --tries=3 --max-time=3600 
+    autostart=true 
+    startsecs=0
+    autorestart=true
+    stopasgroup=true
+    killasgroup=true user={pouzivatel_operacneho_systemu} 
+    numprocs=8
+    redirect_stderr=true 
+    stdout_logfile={cesta}/worker.log 
+    stopwaitsecs=3600
+    ```
+    4. run ```sudo supervisorctl reread```, ```sudo supervisorctl update``` and ```sudo supervisorctl
+       start all```

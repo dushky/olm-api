@@ -21,7 +21,7 @@ class SyncDeviceReservationStatus
 
     private function updateDeviceReservationStatus(Device $device): array
     {
-        $client = new Client('https://' . $device->server->api_domain . '/graphql');
+        $client = new Client('http://' . $device->server->api_domain . '/graphql');
 
         $mutation = new Mutation('updateDeviceReservationStatus');
 

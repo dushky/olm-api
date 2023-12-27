@@ -36,7 +36,7 @@ class StartVideoStream
             ]);
 
         try {
-            $client = new Client('https://' . $this->server->api_domain . '/graphql');
+            $client = new Client('http://' . $this->server->api_domain . '/graphql');
             $results = $client->runQuery($mutation, true)->getData()['startVideoStream'];
         } catch (QueryError $exception) {
             $message = '[Server IP: ' . $this->server->ip_address . '] ERROR: ' . $exception->getErrorDetails()['message'];

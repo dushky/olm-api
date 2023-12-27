@@ -67,7 +67,8 @@ class SyncExperiment
                 'default_value' => $arg['placeholder'],
                 'row' => $arg['row'],
                 'order' => $arg['order'],
-                'options' => $arg['options'] ?? null
+                'options' => $arg['options'] ?? null,
+                'type' => $arg['type'] ?? 'text'
             ];
 
             $formattedArguments[] = $formatted;

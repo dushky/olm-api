@@ -61,6 +61,7 @@ type ExperimentArgument {
     row: Int!
     order: Int!
     options: [ExperimentOption!]
+    type: String! 
 }
 
 type ExperimentOption {

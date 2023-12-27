@@ -49,6 +49,8 @@ type Argument {
     order: Int!
     schema: Schema! @belongsTo
     options: [Option]! @belongsToMany
+    type: String!
+
 }
 
 type Option {

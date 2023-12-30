@@ -106,7 +106,7 @@ class UserExperimentService
     {
         $result = '';
         foreach ($inputs as $input) {
-            $result .= $input['name'] . ':' . $input['value'] . ',';
+            $result .= $input['name'] . ':' . str_replace(["\r\n", "\n", "\r"], "", $input['value']) . ',';
         }
 
         return substr($result, 0, -1) ;

@@ -80,7 +80,7 @@ class UpdateSchemaInputValidator extends Validator
                 'max:255',
             ],
             'schema' => [
-                'mimetypes:text/xml,application/octet-stream'
+                'mimetypes:text/xml,application/octet-stream,text/plain'
             ],
             'preview' => [
                 'mimetypes:image/jpg,image/jpeg,image/png',

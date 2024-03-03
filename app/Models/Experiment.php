@@ -21,6 +21,7 @@ class Experiment extends Model
         'experiment_commands',
         'output_arguments',
         'has_schema',
+        'has_demo',
         'deleted_at'
     ];
 

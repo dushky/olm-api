@@ -111,7 +111,7 @@ class SyncServer
             foreach ($deviceTypeExperiment['software'] as $soft) {
                 app(SyncExperiment::class)->execute(
                     $deviceType, $this->getSoftware($soft['name']), $soft['commands'], $deviceTypeExperiment['output'],
-                    null, null, $soft['has_schema'] ?? true
+                    null, null, $soft['has_schema'] ?? true, $soft['has_demo'] ?? true
                 );
             }
         }
@@ -154,7 +154,7 @@ class SyncServer
         foreach ($software as $soft) {
             $experimentsIds[] = app(SyncExperiment::class)->execute(
                 $device->deviceType, $this->getSoftware($soft['name']), $soft['commands'], $output, $server, $device,
-                $soft['has_schema'] ?? true
+                $soft['has_schema'] ?? true, $soft['has_demo'] ?? true
             )->id;
         }
 
@@ -233,6 +233,7 @@ class SyncServer
                             ->setSelectionSet([
                                 'name',
                                 'has_schema',
+                                'has_demo',
                                 (new Query('commands'))
                                     ->setSelectionSet([
                                         'name',

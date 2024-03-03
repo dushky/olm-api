@@ -12,7 +12,7 @@ class SyncExperiment
 {
     public function execute(
         DeviceType $deviceType, Software $software, array $commands, array $output,
-        ?Server $server = null, ?Device $device = null, ?bool $hasSchema = null
+        ?Server $server = null, ?Device $device = null, ?bool $hasSchema = null, ?bool $hasDemo = null
     ): Experiment
     {
         $experimentData = [
@@ -21,6 +21,7 @@ class SyncExperiment
             'experiment_commands' => $this->formatCommands($commands),
             'output_arguments' => $output,
             'has_schema' => $hasSchema,
+            'has_demo' => $hasDemo,
             'deleted_at' => null
         ];
 

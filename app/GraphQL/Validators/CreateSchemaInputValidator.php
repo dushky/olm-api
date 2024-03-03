@@ -77,7 +77,7 @@ class CreateSchemaInputValidator extends Validator
             ],
             'schema' => [
                 'required',
-                'mimetypes:text/xml,application/octet-stream'
+                'mimetypes:text/xml,application/octet-stream,text/plain'
             ],
             'preview' => [
                 'mimetypes:image/jpg,image/jpeg,image/png',

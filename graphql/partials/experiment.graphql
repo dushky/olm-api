@@ -44,6 +44,7 @@ type Experiment {
     experiment_commands: [ExperimentCommand]!
     output_arguments: [ExperimentOutputArguments!]!
     has_schema: Boolean
+    has_demo: Boolean
     created_at: DateTime!
     updated_at: DateTime!
     deleted_at: DateTime

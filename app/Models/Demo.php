@@ -40,14 +40,6 @@ class Demo extends Model implements HasMedia
             : null;
     }
 
-    public function getPreviewAttribute(): ?String
-    {
-        return isset($this->getMedia('preview')[0])
-            ? $this->getMedia('preview')[0]->getFullUrl()
-            : null;
-    }
-
-
     // **************************** MEDIA **************************** //
 
     public function registerMediaCollections(): void
@@ -55,15 +47,9 @@ class Demo extends Model implements HasMedia
         $this->addMediaCollection('demo')
             // TODO: demo mime types
             ->acceptsMimeTypes([
-                'text/xml', // .xcos
-                'application/octet-stream', // .slx
-                'text/plain'
+                'text/plain',
+                'image/png'
             ])
-            ->singleFile();
-
-        $this->addMediaCollection('preview')
-            ->acceptsMimeTypes(['image/jpg', 'image/jpeg', 'image/png'])
-//            ->accepts('image/*')
             ->singleFile();
     }
 

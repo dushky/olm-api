@@ -1,0 +1,94 @@
+extend type Query @guard(with: ["api"]) {
+    demos(device_type_id: ID @eq, software_id: ID @eq): [Demo!]!
+        @can(ability: "show")
+        @softDeletes
+        @all
+    demo(id: ID @eq): Demo
+        @can(ability: "show")
+        @softDeletes
+        @find
+}
+
+extend type Mutation @guard(with: ["api"]) {
+    createDemo(input: CreateDemoInput! @spread): Demo!
+        @can(ability: "create")
+    updateDemo(input: UpdateDemoInput! @spread): Demo!
+        @can(ability: "update")
+    deleteDemo(id: ID!): Demo!
+        @can(ability: "delete")
+        @delete
+    restoreDemo(id: ID!): Demo!
+        @can(ability: "restore")
+        @restore
+
+    createDemo(input: CreateDemoInput! @spread): Demo!
+        @can(ability: "create")
+}
+
+type Demo {
+    id: ID!
+    name: String!
+    deviceType: DeviceType! @belongsTo
+    software: Software! @belongsTo
+    arguments: [Argument!]! @belongsToMany
+    note: String
+    demo: String
+    created_at: DateTime!
+    updated_at: DateTime!
+    deleted_at: DateTime
+}
+
+type Argument {
+    id: ID!
+    name: String!
+    label: String!
+    default_value: String
+    row: Int!
+    order: Int!
+    demo: Demo! @belongsTo
+    options: [Option]! @belongsToMany
+    type: String!
+
+}
+
+type Option {
+    id: ID!
+    name: String!
+    value: String!
+    output_value: String!
+    argument: Argument! @belongsTo
+}
+
+input CreateDemoInput @validator {
+    name: String!
+    device_type_id: ID!
+    software_id: ID!
+    note: String
+    arguments: [ArgumentInput!]
+    demo: Upload
+}
+
+input UpdateDemoInput @validator {
+    id: ID!
+    name: String!
+    device_type_id: ID!
+    software_id: ID!
+    note: String
+    arguments: [ArgumentInput!]
+    demo: Upload
+}
+
+input ArgumentInput {
+    name: String!
+    label: String!
+    default_value: String
+    row: Int
+    order: Int
+    options: [OptionInput!]
+}
+
+input OptionInput {
+    name: String!
+    value: String!
+    output_value: String!
+}

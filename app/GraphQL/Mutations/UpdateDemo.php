@@ -6,9 +6,8 @@ use App\Actions\SyncDemoArguments;
 use App\Models\Demo;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Illuminate\Support\Facades\Log;
 
-class CreateDemo
+class UpdateDemo
 {
     /**
      * Return a value for the field.
@@ -21,8 +20,9 @@ class CreateDemo
      */
     public function __invoke($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        Log::debug("CreateDemo LOGG", $args);
-        $demo = Demo::create($args);
+        $demo = Demo::findOrFail($args['id']);
+
+        $demo->update($args);
 
         if(isset($args['demo']) && $args['demo']->isValid()) {
             $demo->addMedia($args['demo'])->toMediaCollection('demo');

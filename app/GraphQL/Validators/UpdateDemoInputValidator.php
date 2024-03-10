@@ -2,11 +2,10 @@
 
 namespace App\GraphQL\Validators;
 
-use App\Models\Schema;
 use Illuminate\Validation\Rule;
 use Nuwave\Lighthouse\Validation\Validator;
 
-class CreateSchemaInputValidator extends Validator
+class UpdateDemoInputValidator extends Validator
 {
     /**
      * Return the validation rules.
@@ -16,14 +15,14 @@ class CreateSchemaInputValidator extends Validator
     public function rules(): array
     {
         return [
+            'id' => [
+                'required',
+                'exists:demos,id'
+            ],
             'name' => [
                 'required',
                 'max:255',
-                Rule::unique('schemas', 'name')
-            ],
-            'type'=> [
-                'required',
-                Rule::in(Schema::AVAILABLE_TYPES)
+                Rule::unique('demos', 'name')->ignore($this->arg('id'), 'id')
             ],
             'device_type_id' => [
                 'required',
@@ -75,13 +74,9 @@ class CreateSchemaInputValidator extends Validator
                 'required',
                 'max:255',
             ],
-            'schema' => [
-                'required',
-                'mimetypes:text/xml,application/octet-stream'
-            ],
-            'preview' => [
-                'mimetypes:image/jpg,image/jpeg,image/png',
-            ],
+            'demo' => [
+                'mimetypes:text/xml,text/plain'
+            ]
         ];
     }
 }

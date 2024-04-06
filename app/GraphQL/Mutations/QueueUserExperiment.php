@@ -4,6 +4,7 @@ namespace App\GraphQL\Mutations;
 
 use App\Models\Experiment;
 use App\Models\Schema;
+use App\Models\Demo;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
@@ -22,8 +23,9 @@ class QueueUserExperiment
     {
         $experiment = Experiment::findOrFail($args['experiment_id']);
         $schema = isset($args['schema_id']) ? Schema::findOrFail($args['schema_id']) : null;
+        $demo = isset($args['demo_id']) ? Demo::findOrFail($args['demo_id']) : null;
 
         return app(\App\Actions\QueueUserExperiment::class)
-            ->execute($experiment, $args['input'][0]['script_name'], $args['input'][0]['input'], $schema);
+            ->execute($experiment, $args['input'][0]['script_name'], $args['input'][0]['input'], $schema, $demo);
     }
 }

@@ -16,6 +16,7 @@ class Argument extends Model
         'label',
         'default_value',
         'schema_id',
+        'demo_id',
         'row',
         'order',
     ];

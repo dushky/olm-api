@@ -21,8 +21,6 @@ extend type Mutation @guard(with: ["api"]) {
         @can(ability: "restore")
         @restore
 
-    createDemo(input: CreateDemoInput! @spread): Demo!
-        @can(ability: "create")
 }
 
 type Demo {

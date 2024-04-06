@@ -29,6 +29,9 @@ class QueueUserExperimentInputValidator extends Validator
             'schema_id' => [
                 'exists:schemas,id',
             ],
+            'demo_id' => [
+                'exists:demos,id',
+            ],
         ];
     }
 }

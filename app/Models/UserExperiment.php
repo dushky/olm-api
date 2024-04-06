@@ -20,6 +20,7 @@ class UserExperiment extends Model implements HasMedia
         'experiment_id',
         'device_id',
         'schema_id',
+        'demo_id',
         'input',
         'output',
         'note',
@@ -122,5 +123,10 @@ class UserExperiment extends Model implements HasMedia
     public function schema(): BelongsTo
     {
         return $this->belongsTo(Schema::class);
+    }
+
+    public function demo(): BelongsTo
+    {
+        return $this->belongsTo(Demo::class);
     }
 }

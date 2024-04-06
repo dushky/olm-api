@@ -33,6 +33,10 @@ class RunUserExperimentInputValidator extends Validator
 //                'required',
                 'exists:schemas,id',
             ],
+            'demo_id' => [
+//                 'required',
+                'exists:demos,id',
+            ],
 //            'output' => [
 //                'nullable',
 //            ],

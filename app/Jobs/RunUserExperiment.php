@@ -74,7 +74,8 @@ class RunUserExperiment implements ShouldQueue
                 $result = app(RunUserExperimentScript::class)->execute(
                     $this->userExperiment->user, $device->server, $experiment->deviceType, $device,
                     $this->userExperiment->input[0]['script_name'], $this->userExperiment->input[0]['input'][0], $software,
-                    $this->userExperiment->schema
+                    $this->userExperiment->schema,
+                    $this->userExperiment->demo,
                 );
 
                 $this->userExperiment->update([

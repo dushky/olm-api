@@ -5,6 +5,7 @@ namespace App\Actions;
 use App\Exceptions\BusinessLogicException;
 use App\Models\Experiment;
 use App\Models\Schema;
+use App\Models\Demo;
 use App\Models\UserExperiment;
 use App\Services\UserExperimentService;
 use App\Jobs\RunUserExperiment as RunUserExperimentJob;
@@ -26,12 +27,12 @@ class QueueUserExperiment
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function execute(
-        Experiment $experiment, string $scriptName, array $inputs, ?Schema $schema = null
+        Experiment $experiment, string $scriptName, array $inputs, ?Schema $schema = null, ?Demo $demo = null
     ): UserExperiment
     {
         $user = auth()->user();
 
-        $inputs = $this->userExperimentService->formatInput($inputs, $experiment, $scriptName, $schema);
+        $inputs = $this->userExperimentService->formatInput($inputs, $experiment, $scriptName, $schema, $demo);
         $simulationTime = (int) $this->userExperimentService->getInputValue($inputs, 't_sim');
         $samplingRate = (int) $this->userExperimentService->getInputValue($inputs, 's_rate');
         $userExperiment = UserExperiment::create([
@@ -39,6 +40,7 @@ class QueueUserExperiment
             'experiment_id' => $experiment->id,
             'device_id' => null,
             'schema_id' => $schema?->id,
+            'demo_id' => $demo?->id,
             'input' => $this->userExperimentService->getInputArray($scriptName, $inputs),
             'simulation_time' => $simulationTime,
             'sampling_rate' => $samplingRate,

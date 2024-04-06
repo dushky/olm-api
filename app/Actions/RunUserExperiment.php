@@ -5,6 +5,7 @@ namespace App\Actions;
 use App\Exceptions\BusinessLogicException;
 use App\Models\Experiment;
 use App\Models\Schema;
+use App\Models\Demo;
 use App\Models\UserExperiment;
 use App\Services\UserExperimentService;
 use App\Services\UserExperimentValidationService;
@@ -28,7 +29,7 @@ class RunUserExperiment
      */
     public function execute(
         Experiment $experiment, string $scriptName, array $inputs, Software $software,
-        ?Schema $schema = null, ?UserExperiment $userExperiment = null
+        ?Schema $schema = null, ?Demo $demo = null, ?UserExperiment $userExperiment = null
     ): UserExperiment
     {
         $user = auth()->user();
@@ -46,10 +47,10 @@ class RunUserExperiment
 
         app(UserExperimentValidationService::class)->validate($experiment, $scriptName, $device->id, $simulationTime);
 
-        $inputs = $this->userExperimentService->formatInput($inputs, $experiment, $scriptName, $schema);
+        $inputs = $this->userExperimentService->formatInput($inputs, $experiment, $scriptName, $schema, $demo);
 
         $result = app(RunUserExperimentScript::class)->execute(
-            $user, $server, $deviceType, $device, $scriptName, $inputs, $software, $schema, $userExperiment
+            $user, $server, $deviceType, $device, $scriptName, $inputs, $software, $schema, $demo, $userExperiment
         );
 
         if($result['status'] === 'error') {
@@ -68,6 +69,7 @@ class RunUserExperiment
                 'experiment_id' => $experiment->id,
                 'device_id' => $device->id,
                 'schema_id' => $schema?->id,
+                'demo_id' => $demo?->id,
                 'input' => $this->userExperimentService->getInputArray($scriptName, $inputs),
                 'simulation_time' => $simulationTime,
                 'sampling_rate' => $samplingRate,

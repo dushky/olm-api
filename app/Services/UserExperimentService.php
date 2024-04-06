@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Experiment;
 use App\Models\Schema;
+use App\Models\Demo;
 
 class UserExperimentService
 {
@@ -12,9 +13,10 @@ class UserExperimentService
      * @param Experiment $experiment
      * @param string $scriptName
      * @param Schema|null $schema
+     * @param Demo|null $demo
      * @return mixed
      */
-    public function formatInput(array $inputs, Experiment $experiment, string $scriptName, ?Schema $schema = null): array
+    public function formatInput(array $inputs, Experiment $experiment, string $scriptName, ?Schema $schema = null, ?Demo $demo = null): array
     {
         $commandArguments = [];
         foreach ($experiment->experiment_commands as $command) {
@@ -27,6 +29,11 @@ class UserExperimentService
         if($schema) {
             $schemaArguments = $schema->arguments()->with('options')->get()->toArray();
             $commandArguments = array_merge($commandArguments, $schemaArguments);
+        }
+
+        if($demo) {
+            $demoArguments = $demo->arguments()->with('options')->get()->toArray();
+            $commandArguments = array_merge($commandArguments, $demoArguments);
         }
 
         foreach ($inputs as $key => &$input) {
